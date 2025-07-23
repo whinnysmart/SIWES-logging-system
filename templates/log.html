@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Log Activity{% endblock %}
+
+{% block content %}
+  <h2>Log Your Daily Activity</h2>
+  <form method="post" action="/log">
+    <label for="date">Date:</label>
+    <input type="date" name="date" required><br><br>
+    
+    <label for="activity">Activity Description:</label><br>
+    <textarea name="activity" rows="5" cols="40" required></textarea><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

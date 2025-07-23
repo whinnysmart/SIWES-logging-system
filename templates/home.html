@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIWES Logging System</title>
-  </head>
-  <body>
-    <header>
-      <h1>Welcome to SIWES Logging System</h1>
-      <p>This is just the beginning... 🧠</p>
-    </header>
-    <section>
-      <form action="">
-        <input type="text">
-      </form>
-    </section>
-    
-    <footer>
+{% extends "layout.html" %}
 
-    </footer>
-  </body>
-</html>
+{% block title %}Home - SIWES{% endblock %}
+
+{% block content %}
+  <h2>Welcome to the SIWES Logging System</h2>
+  <p>This platform allows you to log your daily industrial training activities for supervisor review.</p>
+{% endblock %}
