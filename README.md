@@ -1,2 +1,3 @@
 # SIWES-logging-system
-My final year project for daily logging of SIWES report.
+
+My final year project on a daily SIWES report logging and supervision.
