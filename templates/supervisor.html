@@ -11,6 +11,8 @@
           <th>ID</th>
           <th>Date</th>
           <th>Activity</th>
+          <th>Status</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +21,13 @@
             <td>{{ log.id }}</td>
             <td>{{ log.date }}</td>
             <td>{{ log.activity }}</td>
+            <td>{{ log.status }}</td>
+            <td>
+              <form action="{{ url_for('update_status', log_id=log.id) }}" method="POST">
+                <button name="action" value="approve">✅</button>
+                <button name="action" value="disapprove">❌</button>
+              </form>
+            </td>
           </tr>
         {% endfor %}
       </tbody>

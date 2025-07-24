@@ -39,5 +39,19 @@ def supervisor():
     conn.close()
     return render_template("supervisor.html", logs=logs)
 
+#Update status route
+@app.route("/update_status/<int:log_id>", methods=["POST"])
+def update_status(log_id):
+    action = request.form["action"]
+    new_status = "approved" if action == "approve" else "disapproved"
+
+    conn = get_db_connection()
+    conn.execute("UPDATE logs SET status = ? WHERE id = ?", (new_status, log_id))
+    conn.commit()
+    conn.close()
+
+    flash(f"Log {log_id} marked as {new_status}!", "info")
+    return redirect(url_for("supervisor"))
+
 if __name__ == "__main__":
     app.run(debug=True)
