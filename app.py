@@ -1,4 +1,10 @@
+import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash
+
+def get_db_connection():
+    conn = sqlite3.connect('instance/siwes.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 app = Flask(__name__)
 app.secret_key = "whinnysmart123"
@@ -15,7 +21,10 @@ def log():
         date = request.form["date"]
         activity = request.form["activity"]
 
-        print(f"Date: {date}, Activity: {activity}")
+        conn = get_db_connection()
+        conn.execute("INSERT INTO logs (date, activity) VALUES (?, ?)", (date, activity))
+        conn.commit()
+        conn.close()
 
         flash("Log submitted successfully!", "success")
         return redirect(url_for("log"))
