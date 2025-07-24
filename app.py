@@ -34,7 +34,10 @@ def log():
 #Supervisor route
 @app.route("/supervisor")
 def supervisor():
-    return render_template("supervisor.html")
+    conn = get_db_connection()
+    logs = conn.execute("SELECT * FROM logs").fetchall()
+    conn.close()
+    return render_template("supervisor.html", logs=logs)
 
 if __name__ == "__main__":
     app.run(debug=True)
