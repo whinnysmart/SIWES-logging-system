@@ -13,6 +13,7 @@
           <th>Activity</th>
           <th>Status</th>
           <th>Actions</th>
+          <th>Feedback</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +27,12 @@
               <form action="{{ url_for('update_status', log_id=log.id) }}" method="POST">
                 <button name="action" value="approve">✅</button>
                 <button name="action" value="disapprove">❌</button>
+              </form>
+            </td>
+            <td>
+              <form action="{{ url_for('add_feedback', log_id=log.id) }}" method="POST">
+                <textarea name="feedback" rows=2 cols=20>{{log.feedback or ''}}</textarea><br>
+                <button type="submit">💬 Submit</button>
               </form>
             </td>
           </tr>

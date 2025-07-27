@@ -43,7 +43,7 @@ def supervisor():
 @app.route("/update_status/<int:log_id>", methods=["POST"])
 def update_status(log_id):
     action = request.form["action"]
-    new_status = "approved" if action == "approve" else "disapproved"
+    new_status = "Approved" if action == "approve" else "Disapproved"
 
     conn = get_db_connection()
     conn.execute("UPDATE logs SET status = ? WHERE id = ?", (new_status, log_id))
@@ -51,6 +51,18 @@ def update_status(log_id):
     conn.close()
 
     flash(f"Log {log_id} marked as {new_status}!", "info")
+    return redirect(url_for("supervisor"))
+
+@app.route("/add_feedback/<int:log_id>", methods=["POST"])
+def add_feedback(log_id):
+    feedback = request.form.get("feedback")
+
+    conn = get_db_connection()
+    conn.execute("UPDATE logs SET feedback = ? WHERE id = ?", (feedback, log_id))
+    conn.commit()
+    conn.close()
+
+    flash(f"Feedback added for Log {log_id}", "info")
     return redirect(url_for("supervisor"))
 
 if __name__ == "__main__":
