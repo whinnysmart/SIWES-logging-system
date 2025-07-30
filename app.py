@@ -97,16 +97,15 @@ def edit_log(log_id):
     return render_template("edit_log.html", log=log)
 
 #Delete log route
-@app.route("/delete_log/<int:log_id>", methods=["POST"])
+@app.route("/delete_log/<int:log_id>")
 def delete_log(log_id):
-    # conn = get_db_connection()
-    # conn.execute("DELETE FROM logs WHERE id = ?", (log_id,))
-    # conn.commit()
-    # conn.close()
+    conn = get_db_connection()
+    conn.execute("DELETE FROM logs WHERE id = ?", (log_id,))
+    conn.commit()
+    conn.close()
 
-    # flash(f"Log {log_id} deleted successfully!", "warning")
-    # return redirect(url_for("supervisor"))
-    pass
+    flash(f"Log {log_id} deleted successfully!", "warning")
+    return redirect(url_for("student"))
 
 #Error handling route
 if __name__ == "__main__":
