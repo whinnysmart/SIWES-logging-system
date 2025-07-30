@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h2>Edit Log Entry</h2>
+  <form method="POST">
+    <label for="date">Date:</label>
+    <input type="date" name="date" value="{{ log.date }}"><br><br>
+    
+    <label for="activity">Activity:</label><br>
+    <textarea name="activity" rows="4" cols="50">{{ log.activity }}</textarea><br><br>
+
+    <button type="submit">💾 Save Changes</button>
+  </form>
+
+  <a href="{{url_for('student')}}">⬅️ Back to logs</a>
+{% endblock %}

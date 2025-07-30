@@ -86,7 +86,7 @@ def edit_log(log_id):
         new_date = request.form["date"]
         new_activity = request.form["activity"]
 
-        conn.execute("UPDATE logs SET date = ?, activity = ? WHERE id = ?", (new_date, new_activity, log_id))
+        conn.execute("UPDATE logs SET date = ?, activity = ?, status = 'pending', feedback = NULL WHERE id = ?", (new_date, new_activity, log_id))
         conn.commit()
         conn.close()
 
