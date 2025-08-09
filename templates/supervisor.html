@@ -19,7 +19,7 @@
       <tbody>
         {% for log in logs %}
           <tr>
-            <td>{{ log.id }}</td>
+            <td>{{ loop.index }}</td>
             <td>{{ log.date }}</td>
             <td>{{ log.activity }}</td>
             <td>{{ log.status }}</td>
