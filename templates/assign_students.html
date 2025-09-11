@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Assign Students to Supervisors</h2>
+
+<form method="POST">
+    <label for="student_id">Select Student:</label>
+    <select name="student_id" required>
+        {% for student in students %}
+        <option value="{{ student.id }}">{{ student.username }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="supervisor_id">Select Supervisor:</label>
+    <select name="supervisor_id" required>
+        {% for supervisor in supervisors %}
+        <option value="{{ supervisor.id }}">{{ supervisor.username }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Assign</button>
+</form>
+
+<hr>
+<h3>Current Assignments</h3>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Student</th>
+        <th>Supervisor</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.username }}</td>
+        <td>
+            {% for supervisor in supervisors %}
+                {% if student.supervisor_id == supervisor.id %}
+                    {{ supervisor.username }}
+                {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

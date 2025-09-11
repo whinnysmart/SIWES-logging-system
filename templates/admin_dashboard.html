@@ -1,0 +1,13 @@
+{% extends 'layout.html' %} {% block content %}
+
+<h2>Welcome, Admin {{current_user.name}}</h2>
+<p>
+  Use this dashboard to assign students to supervisors and manage the system./p>
+</p>
+
+<ul>
+  <li><a href="{{ url_for('assign_students') }}">Assign Students</a></li>
+  <li><a href="#">View All User</a></li>
+  <li><a href="#">View All Logs</a></li>
+</ul>
+{% endblock %}

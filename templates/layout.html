@@ -10,9 +10,15 @@
     <h1>SIWES Logging System</h1>
     <nav>
       <a href="/">🏠 Home</a> |
-      <a href="/log">📝 Log</a> |
       <a href="/student">📒 My Logs</a> |
+      <a href="/log">📝 Log</a>  |
       <a href="/supervisor">📋 Supervisor</a>
+    
+      {% if current_user.is_authenticated %}
+        Welcome, {{ current_user.username }}! <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
     </nav>
   </header>
 
@@ -26,6 +32,15 @@
     {% endwith %}
 
     {% block content %}{% endblock %}
+
+    {% if current_user.is_authenticated %}
+      Logged in as {{ current_user.username }} | <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+
+    <hr>
+    <p><a href="{{ url_for('admin_login') }}">Login as Admin</a></p>
   </main>
 
   <footer>
