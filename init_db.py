@@ -4,68 +4,51 @@ import os
 
 DB_PATH = "instance/siwes.db"
 
-# if os.path.exists(DB_PATH):
-#     os.remove(DB_PATH)
-#     print(f"Removed existing database at {DB_PATH}")
+# Remove the old DB (optional for a fresh start)
+if os.path.exists(DB_PATH):
+    os.remove(DB_PATH)
+    print(f"Removed existing database at {DB_PATH}")
 
+# Create connection
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
-# #Create a table for users
-# cursor.execute('''
-#     CREATE TABLE IF NOT EXISTS users (
-#         id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         username TEXT NOT NULL UNIQUE,
-#         password_hash TEXT NOT NULL,
-#         role TEXT NOT NULL CHECK(role IN ('student', 'supervisor', 'admin')),
-#         supervisor_id INTEGER REFERENCES users(id)
-#     )
-# ''')
+# Create Users table
+cursor.execute('''
+    CREATE TABLE users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        role TEXT NOT NULL CHECK(role IN ('student', 'supervisor', 'admin')),
+        supervisor_id INTEGER,
+        FOREIGN KEY (supervisor_id) REFERENCES users(id)
+    )
+''')
 
-# #Create a table for logs
-# cursor.execute('''
-#     CREATE TABLE IF NOT EXISTS logs (
-#         id INTEGER PRIMARY KEY AUTOINCREMENT,
-#         user_id INTEGER NOT NULL,
-#         date DATETIME NOT NULL,
-#         activity TEXT NOT NULL,
-#         status TEXT DEFAULT 'pending',
-#         feedback TEXT
-#     )
-# ''')
+# Create Logs table
+cursor.execute('''
+    CREATE TABLE logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        student_id INTEGER NOT NULL,
+        date DATETIME NOT NULL,
+        activity TEXT NOT NULL,
+        status TEXT DEFAULT 'pending',
+        feedback TEXT,
+        FOREIGN KEY (student_id) REFERENCES users(id)
+    )
+''')
 
-# conn.commit()
-# conn.close()
-
-# print("Database initialized with user_id in logs table!.")
-
-# cursor.execute("ALTER TABLE logs ADD COLUMN student_id INTEGER;")
-
-# conn.commit()
-# conn.close()
-
-# print("student_id column added successfully!")
-
-# Assign student ID to supervisor
-# cursor.execute("UPDATE users SET supervisor_id = ? WHERE id = ?", (2, 1))
-# cursor.execute("UPDATE users SET supervisor_id = ? WHERE id = ?", (4, 3))
-
-# conn.commit()
-# conn.close()
-
+# Create default admin user
 bcrypt = Bcrypt()
 pw_hash = bcrypt.generate_password_hash("adminpass").decode('utf-8')
 
-conn = sqlite3.connect(DB_PATH)
-cursor = conn.cursor()
-
-# Insert admin user
 cursor.execute('''
-    INSERT INTO users (username, password_hash, role) 
+    INSERT INTO users (username, password_hash, role)
     VALUES (?, ?, ?)
 ''', ('admin', pw_hash, 'admin'))
 
+# Save and close
 conn.commit()
 conn.close()
 
-print("Admin user created successfully with username 'admin' and password 'adminpass'.")
+print("Database initialized successfully with users, logs, and default admin.")

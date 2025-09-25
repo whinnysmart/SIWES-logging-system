@@ -1,13 +1,16 @@
-{% extends 'layout.html' %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, Admin!</h1>
+    <p>You are logged in as <strong>{{ current_user.username }}</strong></p>
 
-<h2>Welcome, Admin {{current_user.name}}</h2>
-<p>
-  Use this dashboard to assign students to supervisors and manage the system./p>
-</p>
-
-<ul>
-  <li><a href="{{ url_for('assign_students') }}">Assign Students</a></li>
-  <li><a href="#">View All User</a></li>
-  <li><a href="#">View All Logs</a></li>
-</ul>
-{% endblock %}
+    <ul>
+        <li><a href="{{ url_for('assign_students') }}">Assign Students to Supervisors</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</body>
+</html>
