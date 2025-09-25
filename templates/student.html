@@ -3,7 +3,8 @@
 {% block title %}Students Logs{% endblock %}
 
 {% block content %}
-  <h2>My SIWES Log</h2>
+  <h2>My SIWES Log</h2> | <a href="{{ url_for('logs_by_date') }}">View Logs by Date</a>
+
   {% if logs %}
     <table border="1" cellpadding="10">
       <thead>

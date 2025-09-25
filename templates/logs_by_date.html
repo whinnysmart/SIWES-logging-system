@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Filter Logs by Date</h2>
+
+<form method="POST">
+    <label for="date">Select Date:</label>
+    <input type="date" name="date" value="{{ selected_date or '' }}" required>
+    <button type="submit">Filter</button>
+</form>
+
+<hr>
+
+{% if selected_date %}
+    <h3>Logs for {{ selected_date }}</h3>
+    {% if logs %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Date</th>
+                <th>Activity</th>
+                <th>Status</th>
+                <th>Feedback</th>
+            </tr>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.date }}</td>
+                <td>{{ log.activity }}</td>
+                <td>{{ log.status }}</td>
+                <td>{{ log.feedback or "N/A" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No logs found for this date.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

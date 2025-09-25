@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>Supervisor Dashboard</h2>
+
+<form method="POST">
+    <label for="student_id">Filter by Student:</label>
+    <select name="student_id">
+        <option value="all" {% if selected_student == "all" %}selected{% endif %}>All Students</option>
+        {% for student in students %}
+            <option value="{{ student.id }}" {% if selected_student == student.id|string %}selected{% endif %}>
+                {{ student.username }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="start_date">Start Date:</label>
+    <input type="date" name="start_date" value="{{ start_date or '' }}">
+
+    <label for="end_date">End Date:</label>
+    <input type="date" name="end_date" value="{{ end_date or '' }}">
+
+    <button type="submit">Apply Filters</button>
+</form>
+
+<hr>
+
+{% if selected_student != "all" or start_date or end_date %}
+    <h3>
+        Showing logs 
+        {% if selected_student_name %}
+            for <strong>{{ selected_student_name }}</strong>
+        {% endif %}
+        {% if start_date and end_date %}
+            from <strong>{{ start_date }}</strong> to <strong>{{ end_date }}</strong>
+        {% elif start_date %}
+            from <strong>{{ start_date }}</strong> onwards
+        {% elif end_date %}
+            up to <strong>{{ end_date }}</strong>
+        {% endif %}
+    </h3>
+{% endif %}
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Student</th>
+        <th>Date</th>
+        <th>Activity</th>
+        <th>Status</th>
+        <th>Feedback</th>
+        <th>Actions</th>
+    </tr>
+    {% for log in logs %}
+    <tr>
+        <td>{{ log.id }}</td>
+        <td>{{ log.username }}</td>
+        <td>{{ log.date }}</td>
+        <td>{{ log.activity }}</td>
+        <td>{{ log.status }}</td>
+        <td>{{ log.feedback or "No feedback yet" }}</td>
+        <td>
+            <form method="POST" action="{{ url_for('update_status', log_id=log.id) }}">
+                <button type="submit" name="action" value="approve">Approve</button>
+                <button type="submit" name="action" value="disapprove">Disapprove</button>
+            </form>
+            <form method="POST" action="{{ url_for('add_feedback', log_id=log.id) }}">
+                <input type="text" name="feedback" placeholder="Add feedback">
+                <button type="submit">Submit</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
