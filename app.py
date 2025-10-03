@@ -158,10 +158,30 @@ def student():
         return redirect(url_for("login"))
 
     conn = get_db_connection()
-    logs = conn.execute("SELECT * FROM logs WHERE student_id = ? ORDER BY date DESC", (current_user.id,)).fetchall()
+
+    # Fetch all logs for this student
+    logs = conn.execute(
+        "SELECT * FROM logs WHERE student_id = ? ORDER BY date DESC", 
+        (current_user.id,)
+    ).fetchall()
+
+    # Stats
+    total_logs = len(logs)
+    pending_logs = len([log for log in logs if log["status"].lower() == "pending"])
+    approved_logs = len([log for log in logs if log["status"].lower() == "approved"])
+
+    # Recent 5 logs for table display
+    recent_logs = logs[:5]
+
     conn.close()
 
-    return render_template("student.html", logs=logs)
+    return render_template(
+        "student.html",
+        total_logs=total_logs,
+        pending_logs=pending_logs,
+        approved_logs=approved_logs,
+        recent_logs=recent_logs
+    )
 
 
 # --------------------------
@@ -225,7 +245,7 @@ def log():
     """Students submit logs for their activities."""
     if current_user.role != "student":
         flash("Only students can log activities.", "danger")
-        return redirect(url_for("home"))
+        return redirect(url_for("student"))
 
     if request.method == "POST":
         date = request.form["date"]
