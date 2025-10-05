@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = "whinnysmart123"
 
 # Session settings
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=5)
 app.config["SESSION_REFRESH_EACH_REQUEST"] = True
 
 # Flask extensions
@@ -66,7 +66,7 @@ def get_db_connection():
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", Page ='home')
 
 
 # --------------------------
@@ -96,7 +96,7 @@ def register():
         finally:
             conn.close()
 
-    return render_template("register.html")
+    return render_template("register.html", Page ='register')
 
 
 # --------------------------
@@ -132,7 +132,7 @@ def login():
         else:
             flash("Invalid username or password!", "danger")
 
-    return render_template("login.html")
+    return render_template("login.html", Page ='login')
 
 
 # --------------------------
@@ -180,7 +180,8 @@ def student():
         total_logs=total_logs,
         pending_logs=pending_logs,
         approved_logs=approved_logs,
-        recent_logs=recent_logs
+        recent_logs=recent_logs, 
+        Page ='student'
     )
 
 
@@ -194,7 +195,7 @@ def admin_dashboard():
     if current_user.role != "admin":
         flash("Access Denied! Admins only.", "danger")
         return redirect(url_for("login"))
-    return render_template("admin_dashboard.html")
+    return render_template("admin_dashboard.html", Page ='admin_dashboard')
 
 
 # --------------------------
@@ -233,7 +234,7 @@ def assign_students():
     supervisors = conn.execute("SELECT id, username FROM users WHERE role = 'supervisor'").fetchall()
 
     conn.close()
-    return render_template("assign_students.html", students=students, supervisors=supervisors)
+    return render_template("assign_students.html", students=students, supervisors=supervisors, Page ='assign_students')
 
 
 # --------------------------
@@ -262,7 +263,7 @@ def log():
         flash("Log submitted successfully!", "success")
         return redirect(url_for("student"))
 
-    return render_template("log.html")
+    return render_template("log.html", Page ='log')
 
 
 # --------------------------
@@ -299,7 +300,7 @@ def edit_log(log_id):
         return redirect(url_for("student"))
 
     conn.close()
-    return render_template("edit_log.html", log=log)
+    return render_template("edit_log.html", log=log, Page ='edit_log')
 
 
 # --------------------------
@@ -384,7 +385,8 @@ def supervisor():
         students=students,
         selected_student=selected_student,
         start_date=start_date,
-        end_date=end_date
+        end_date=end_date, 
+        Page ='supervisor'
     )
 
 
@@ -457,7 +459,7 @@ def logs_by_date():
         ).fetchall()
         conn.close()
 
-    return render_template("logs_by_date.html", logs=logs, selected_date=selected_date)
+    return render_template("logs_by_date.html", logs=logs, selected_date=selected_date, Page ='logs_by_date')
 
 
 # --------------------------

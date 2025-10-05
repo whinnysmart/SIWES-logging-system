@@ -1,0 +1,119 @@
+/* static/CSS/style.css */
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-size: small;
+  background: url("../images/logbook2.jpg") no-repeat center center fixed;
+  background-size: cover;
+  position: absolute;
+  width: 100%; height: 100vh;
+  margin: 0;
+
+}
+
+/* Dark overlay with blur */
+body::before {
+  content: "";
+  background-size: cover;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 120vh;
+  background: rgba(0, 0, 0, 0.5);   /* adjust darkness (0.5 = 50% opacity) */
+  backdrop-filter: blur(5px);       /* blur effect */
+  z-index: 1;
+}
+
+/* Ensure content stays above overlay */
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/*Navbar*/
+.navbar{
+  background-color: rgb(20, 86, 144);
+}
+
+.navbar-brand{
+  position: relative;
+  padding: 0 0 0 50px;
+}
+
+.d-flex{
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+}
+
+.auth-card {
+  /* background-color: rgb(20, 86, 144); */
+  /* backdrop-filter: blur(12px); */
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); */
+  padding: 40px;
+  border-radius: 25px;
+  max-width: 400px;
+  width: 100%; height: 100%;
+  margin: auto;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.form-card {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+}
+
+.auth-card input,
+.auth-card select {
+  font-size: small;
+  border-radius: 10px;
+  border: none;
+}
+
+.btn-lg {
+  font-size: small;
+  border-radius: 30px;
+  font-weight: 600;
+  max-width: max-content;
+}
+
+.dashboard {
+    font-size: large;
+    font-weight: 500;
+    color: #fff;
+}
+
+.stats-card {
+    border-radius: 50px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body{
+  
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+
+/* Alerts */
+.alert {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+/* animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
