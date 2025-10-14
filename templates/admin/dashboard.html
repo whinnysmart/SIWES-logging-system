@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <h2 class="mb-4">Admin Dashboard</h2>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card text-center p-3 shadow-sm">
+        <h5>Total Students</h5>
+        <h3>{{ stats.total_students }}</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center p-3 shadow-sm">
+        <h5>Total Supervisors</h5>
+        <h3>{{ stats.total_supervisors }}</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center p-3 shadow-sm">
+        <h5>Pending Logs</h5>
+        <h3>{{ stats.pending_logs }}</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center p-3 shadow-sm">
+        <h5>Approved Logs</h5>
+        <h3>{{ stats.approved_logs }}</h3>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h4>Recent Activities</h4>
+  <table class="table table-hover">
+    <thead><tr><th>Student</th><th>Activity</th><th>Date</th></tr></thead>
+    <tbody>
+      <tr><td>John Doe</td><td>Submitted Weekly Log</td><td>2025-10-11</td></tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}
