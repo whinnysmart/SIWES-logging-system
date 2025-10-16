@@ -1,0 +1,94 @@
+{% extends "admin/base.html" %}
+{% block title %}Manage Logs{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="fw-bold mb-4">Manage Student Logs</h2>
+
+  <!-- Filter Section -->
+  <form class="mb-3" method="get" action="{{ url_for('admin.logs') }}">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label">Status</label>
+        <select class="form-select" name="status">
+          <option value="all" {% if status=='all' %}selected{% endif %}>All</option>
+          <option value="pending" {% if status=='pending' %}selected{% endif %}>Pending</option>
+          <option value="approved" {% if status=='approved' %}selected{% endif %}>Approved</option>
+          <option value="disapproved" {% if status=='disapproved' %}selected{% endif %}>Disapproved</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">Filter</button>
+      </div>
+      <div class="col-md-2">
+        <a href="{{ url_for('admin.logs') }}" class="btn btn-secondary w-100">Reset</a>
+      </div>
+    </div>
+  </form>
+
+  <!-- Logs Table + Bulk Actions -->
+  <form method="POST" action="{{ url_for('admin.logs_action') }}">
+    <div class="d-flex mb-3" style="height: auto;">
+      <button name="action" value="approve" class="btn btn-success me-2">Approve</button>
+      <button name="action" value="disapprove" class="btn btn-warning me-2">Disapprove</button>
+      <button name="action" value="delete" class="btn btn-danger me-2" onclick="return confirm('Are you sure you want to delete selected logs?');">Delete</button>
+    </div>
+
+    <table class="table table-hover table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th><input type="checkbox" id="selectAll"></th>
+          <th>ID</th>
+          <th>Student</th>
+          <th>Date</th>
+          <th>Activity</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider-light" style="background-color: antiquewhite;">
+        {% for log in logs %}
+        <tr>
+          <td><input type="checkbox" name="selected_logs" value="{{ log.id }}"></td>
+          <td>{{ log.id }}</td>
+          <td>{{ log.student }}</td>
+          <td>{{ log.date }}</td>
+          <td>{{ log.activity[:50] }}{% if log.activity|length > 50 %}...{% endif %}</td>
+          <td>
+            {% if log.status.lower() == 'approved' %}
+              <span class="badge bg-success">Approved</span>
+            {% elif log.status.lower() == 'pending' %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% elif log.status.lower() == 'disapproved' %}
+              <span class="badge bg-danger">Disapproved</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ log.status }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted">No logs found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav>
+      <ul class="pagination">
+        {% for p in range(1, total_pages + 1) %}
+          <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="{{ url_for('admin.logs', status=status, page=p) }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </form>
+</div>
+
+<script>
+  // select all checkboxes
+  document.getElementById('selectAll').addEventListener('click', function(e) {
+    const checkboxes = document.querySelectorAll('input[name="selected_logs"]');
+    checkboxes.forEach(cb => cb.checked = e.target.checked);
+  });
+</script>
+{% endblock %}

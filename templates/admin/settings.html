@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <h3 class="fw-bold mb-4">System Settings</h3>
+
+  <!-- System Info -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h5 class="fw-semibold text-muted">Students</h5>
+          <h3 class="fw-bold text-primary">{{ total_students }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h5 class="fw-semibold text-muted">Supervisors</h5>
+          <h3 class="fw-bold text-success">{{ total_supervisors }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h5 class="fw-semibold text-muted">Logs</h5>
+          <h3 class="fw-bold text-info">{{ total_logs }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h5 class="fw-semibold text-muted">DB Size</h5>
+          <h3 class="fw-bold text-danger">{{ db_size }} KB</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white fw-semibold">
+      Change Admin Password
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        <input type="hidden" name="action" value="change_password">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-4">
+            <input type="password" name="old_password" class="form-control" placeholder="Old Password" required>
+          </div>
+          <div class="col-md-4">
+            <input type="password" name="new_password" class="form-control" placeholder="New Password" required>
+          </div>
+          <div class="col-md-4">
+            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+          </div>
+          <div class="col-md-12 mt-3 text-end">
+            <button class="btn btn-success">
+              <i class="bi bi-key"></i> Update Password
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Backup Database -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white fw-semibold">
+      Database Backup
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        <input type="hidden" name="action" value="backup">
+        <p>Download a backup copy of your SIWES Logging System database for safety.</p>
+        <button class="btn btn-outline-dark">
+          <i class="bi bi-download"></i> Backup Database
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

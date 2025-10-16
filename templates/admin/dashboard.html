@@ -1,41 +1,56 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "admin/base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
 
+{% block content %}
 <div class="container mt-4">
-  <h2 class="mb-4">Admin Dashboard</h2>
-  <div class="row">
+  <h2>Admin Dashboard</h2>
+
+  <div class="row g-3 my-3" style="color:  rgb(20, 86, 144);">
     <div class="col-md-3">
-      <div class="card text-center p-3 shadow-sm">
-        <h5>Total Students</h5>
+      <div class="card p-3">
+        <small>Total Students</small>
         <h3>{{ stats.total_students }}</h3>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-center p-3 shadow-sm">
-        <h5>Total Supervisors</h5>
+      <div class="card p-3">
+        <small>Total Supervisors</small>
         <h3>{{ stats.total_supervisors }}</h3>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-center p-3 shadow-sm">
-        <h5>Pending Logs</h5>
+      <div class="card p-3">
+        <small>Pending Logs</small>
         <h3>{{ stats.pending_logs }}</h3>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-center p-3 shadow-sm">
-        <h5>Approved Logs</h5>
+      <div class="card p-3">
+        <small>Approved Logs</small>
         <h3>{{ stats.approved_logs }}</h3>
       </div>
     </div>
   </div>
-  <hr>
-  <h4>Recent Activities</h4>
-  <table class="table table-hover">
-    <thead><tr><th>Student</th><th>Activity</th><th>Date</th></tr></thead>
-    <tbody>
-      <tr><td>John Doe</td><td>Submitted Weekly Log</td><td>2025-10-11</td></tr>
-    </tbody>
-  </table>
+
+  <div class="card">
+    <div class="card-header" style="color: black; text-align: center; font-size: large;">Recent Activities</div>
+    <div class="card-body">
+      <table class="table">
+        <thead><tr><th>ID</th><th>Student</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for row in activities %}
+            <tr>
+              <td>{{ row.id }}</td>
+              <td>{{ row.student }}</td>
+              <td>{{ row.date }}</td>
+              <td>{{ row.status }}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="4" class="text-center">No recent activity</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 {% endblock %}

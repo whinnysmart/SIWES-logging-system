@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+{% block title %}Manage Students{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <h3 class="fw-bold mb-4">Manage Students</h3>
+
+  <!-- Search -->
+  <form class="row g-2 mb-3" method="get" action="{{ url_for('admin.students') }}">
+    <div class="col-md-4">
+      <input type="text" name="q" class="form-control" placeholder="Search by name..." value="{{ q }}">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" type="submit">Search</button>
+    </div>
+    <div class="col-md-2">
+      <a href="{{ url_for('admin.students') }}" class="btn btn-secondary w-100">Reset</a>
+    </div>
+  </form>
+
+  <!-- Students Table -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Student</th>
+            <th>Supervisor</th>
+            <th>Assign Supervisor</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in students %}
+          <tr>
+            <td>{{ s.id }}</td>
+            <td class="fw-semibold">{{ s.student_name }}</td>
+            <td>
+              {% if s.supervisor_name %}
+                <span class="badge bg-success">{{ s.supervisor_name }}</span>
+              {% else %}
+                <span class="badge bg-secondary">Unassigned</span>
+              {% endif %}
+            </td>
+            <td>
+              <form method="POST" class="d-flex align-items-center" style="gap: 0.5rem;">
+                <input type="hidden" name="action" value="assign">
+                <input type="hidden" name="student_id" value="{{ s.id }}">
+                <select name="supervisor_id" class="form-select form-select-sm w-auto" required>
+                  <option disabled selected>Choose</option>
+                  {% for sup in supervisors %}
+                    <option value="{{ sup.id }}">{{ sup.username }}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-sm btn-outline-primary" type="submit">Assign</button>
+              </form>
+            </td>
+            <td>
+              <form method="POST" onsubmit="return confirm('Are you sure you want to delete {{ s.student_name }}?');">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="student_id" value="{{ s.id }}">
+                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" class="text-center text-muted">No students found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav aria-label="Page navigation" class="mt-3">
+    <ul class="pagination">
+      {% for p in range(1, total_pages + 1) %}
+        <li class="page-item {% if p == page %}active{% endif %}">
+          <a class="page-link" href="{{ url_for('admin.students', q=q, page=p) }}">{{ p }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</div>
+
+{% endblock %}

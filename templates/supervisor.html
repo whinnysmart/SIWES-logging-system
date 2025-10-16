@@ -7,11 +7,11 @@
 <div>
 
     <div class="container mt-4">
-            <h2 class="dashboard">Welcome, {{ current_user.username }}!</h2>
+            <h2 class="dashboard"><i class="bi bi-person-circle"> </i>Welcome, {{ current_user.username }}!</h2>
             <br>
             <!-- Filter Section -->
-            <div class="filter-card">
-                <form method="POST" class="row g-3">
+            <div class="row g-2 align-items-end">
+                <form method="POST" class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label for="student_id" class="form-label">Select Student:</label>
                         <select class="form-select" name="student_id" id="student_id">
@@ -29,15 +29,16 @@
                         <label for="end_date" class="form-label">End Date:</label>
                         <input type="date" class="form-control" name="end_date" id="end_date" value="{{ end_date }}">
                     </div>
-                    <div class="col-md-2 supervisor-d-flex align-items-end">
+                    <div class="col-md-2">
                         <button type="submit" class="btn btn-primary w-100">Filter</button>
                     </div>
-                    <div class="col-md-2 w-100 justify-content-end" style="display: flex;">
-                        <button type="submit" name="reset" class="btn btn-outline-secondary">Reset</button>
+                    <div class="col-md-1">
+                        <button type="submit" name="reset" class="btn btn-secondary w-100">Reset</button>
                     </div>
                 </form>
             </div>
-    
+            <br>
+            <br>
             <!-- Logs Table -->
             <div class="card shadow-sm">
                 <div class="card-body">

@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+{% block title %}Manage Supervisors{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <h3 class="fw-bold mb-4">Manage Supervisors</h3>
+
+  <!-- Add Supervisor -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white fw-semibold">
+      Add New Supervisor
+    </div>
+    <div class="card-body">
+      <form method="POST" class="row g-2">
+        <input type="hidden" name="action" value="add">
+        <div class="col-md-4">
+          <input type="text" name="username" class="form-control" placeholder="Enter supervisor username" required>
+        </div>
+        <div class="col-md-4">
+          <input type="password" name="password" class="form-control" placeholder="Temporary password" required>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-success w-100" type="submit">
+            <i class="bi bi-person-plus"></i> Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Supervisors Table -->
+  <div class="card shadow-sm">
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Supervisor</th>
+            <th>Total Students</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sup in supervisors %}
+          <tr>
+            <td>{{ sup.id }}</td>
+            <td class="fw-semibold">{{ sup.username }}</td>
+            <td>
+              {% if sup.total_students > 0 %}
+                <span class="badge bg-info text-dark">{{ sup.total_students }} Student(s)</span>
+              {% else %}
+                <span class="badge bg-secondary">No Students</span>
+              {% endif %}
+            </td>
+            <td>
+              <form method="POST" onsubmit="return confirm('Delete {{ sup.username }} and unassign their students?');">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="supervisor_id" value="{{ sup.id }}">
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4" class="text-center text-muted">No supervisors found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

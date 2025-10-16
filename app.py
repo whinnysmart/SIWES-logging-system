@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from datetime import timedelta
 from admin import admin_bp
 
+from db_utils import get_db_connection
 
 # --------------------------
 # FLASK APP CONFIG
@@ -12,9 +13,13 @@ from admin import admin_bp
 app = Flask(__name__)
 app.secret_key = "whinnysmart123"
 
+# SQLite DB path
+Database = "instance/siwes.db"
+
 # Session settings
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=5)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=10)
 app.config["SESSION_REFRESH_EACH_REQUEST"] = True
+app.config['DATABASE'] = Database
 
 # Flask extensions
 bcrypt = Bcrypt(app)
@@ -26,10 +31,6 @@ login_manager.login_view = "login"
 # REGISTER BLUEPRINTS
 # --------------------------
 app.register_blueprint(admin_bp)
-
-
-# SQLite DB path
-Database = "instance/siwes.db"
 
 
 # --------------------------
@@ -62,10 +63,10 @@ def load_user(user_id):
 # --------------------------
 # HELPER: DB CONNECTION
 # --------------------------
-def get_db_connection():
-    conn = sqlite3.connect(Database)
-    conn.row_factory = sqlite3.Row
-    return conn
+# def get_db_connection():
+#     conn = sqlite3.connect(Database)
+#     conn.row_factory = sqlite3.Row
+#     return conn
 
 
 # --------------------------

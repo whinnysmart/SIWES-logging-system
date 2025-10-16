@@ -20,6 +20,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <style>
+      .btn {
+        border-radius: 6px !important;
+        font-weight: 500;
+      }
+
+      .card {
+        border: none;
+        border-radius: 8px;
+      }
+
+      .card-header {
+        border-bottom: 2px solid #f1f1f1;
+      }
+
+      input.form-control, select.form-select {
+        border-radius: 6px;
+      }
+    </style>
 </head>
 
 <body>
@@ -32,14 +51,14 @@
                 <ul class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
                         {% if Page == 'home' %}
-                          <li class="nav-item"><a class="nav-link" href="{{ url_for('student' or 'supervisor') }}">Dashboard</a></li>
+                          <li class="nav-item"><a class="nav-link" href="{{ url_for('student' or 'supervisor') }}"><i class="bi bi-speedometer2"> </i>Dashboard</a></li>
                           <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"> </i>Logout</a></li>
                         {% else %}
                           <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"> </i>Logout</a></li>
                         {% endif %}
                     {% else %}
                         {% if Page == 'home' or 'login' or 'register' %}
-                          <li class="nav-item"><a class="nav-link" href="{{ url_for('student') }}">Visit Dashboard</a></li>
+                          <li class="nav-item"><a class="nav-link" href="{{ url_for('student') }}"><i class="bi bi-speedometer2"> </i>Visit Dashboard</a></li>
                         {% else %}
                           <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}"><i class="bi bi-box-arrow-in-right"> </i>Login</a></li>
                           <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}"><i class="bi bi-pencil-square"> </i>Register</a></li>
@@ -87,6 +106,10 @@
         });
       }, 6000);
     </script>
+
+  <footer class="text-center text-secondary small py-3">
+    Developed by <strong>Winner Usunobu</strong> — AUTOMATED SIWES LOGBOOK © 2025
+  </footer>
 
 </body>
 </html>
