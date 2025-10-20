@@ -61,15 +61,6 @@ def load_user(user_id):
 
 
 # --------------------------
-# HELPER: DB CONNECTION
-# --------------------------
-# def get_db_connection():
-#     conn = sqlite3.connect(Database)
-#     conn.row_factory = sqlite3.Row
-#     return conn
-
-
-# --------------------------
 # ROUTES
 # --------------------------
 
@@ -193,59 +184,6 @@ def student():
         recent_logs=recent_logs, 
         Page ='student'
     )
-
-
-# --------------------------
-# ADMIN DASHBOARD
-# --------------------------
-# @app.route("/admin_dashboard")
-# @login_required
-# def admin_dashboard():
-#     """Simple admin dashboard."""
-#     if current_user.role != "admin":
-#         flash("Access Denied! Admins only.", "danger")
-#         return redirect(url_for("login"))
-#     return render_template("admin/dashboard.html", Page ='admin_dashboard')
-
-
-# # --------------------------
-# # ASSIGN STUDENTS TO SUPERVISORS
-# # --------------------------
-# @app.route("/assign_students", methods=["GET", "POST"])
-# @login_required
-# def assign_students():
-#     """Admin assigns students to supervisors."""
-#     if current_user.role != "admin":
-#         flash("Access Denied! Admins only.", "danger")
-#         return redirect(url_for("login"))
-
-#     conn = get_db_connection()
-
-#     if request.method == "POST":
-#         student_id = request.form.get("student_id")
-#         supervisor_id = request.form.get("supervisor_id")
-
-#         conn.execute("UPDATE users SET supervisor_id = ? WHERE id = ?", (supervisor_id, student_id))
-#         conn.commit()
-#         flash("Student assigned successfully!", "success")
-#         conn.close()
-#         return redirect(url_for("assign_students"))
-
-#     # Fetch students with their supervisors (if assigned)
-#     students = conn.execute("""
-#         SELECT s.id as student_id, s.username as student_username, 
-#                s.supervisor_id, u.username as supervisor_username
-#         FROM users s
-#         LEFT JOIN users u ON s.supervisor_id = u.id
-#         WHERE s.role = 'student'
-#     """).fetchall()
-
-#     # Fetch supervisors for dropdown
-#     supervisors = conn.execute("SELECT id, username FROM users WHERE role = 'supervisor'").fetchall()
-
-#     conn.close()
-#     return render_template("assign_students.html", students=students, supervisors=supervisors, Page ='assign_students')
-
 
 # --------------------------
 # STUDENT LOG SUBMISSION
